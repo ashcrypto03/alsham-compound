@@ -1,94 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
-import { UnitType, PurchaseMethod, LeadFormState } from '../types';
+import React from 'react';
+import { MessageCircle, Clock, Calendar, ArrowLeft } from 'lucide-react';
+import { UnitType } from '../types';
 
 interface LeadFormProps {
   selectedInterest: UnitType;
 }
 
 export const LeadForm: React.FC<LeadFormProps> = ({ selectedInterest }) => {
-  const [formData, setFormData] = useState<LeadFormState>({
-    fullName: '',
-    age: '',
-    interestType: selectedInterest,
-    purchaseMethod: 'cash',
-    phone: '',
-    email: '',
-    notes: '',
-    consent: false
-  });
-
-  const [errors, setErrors] = useState<Partial<Record<keyof LeadFormState, string>>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    setFormData(prev => ({ ...prev, interestType: selectedInterest }));
-  }, [selectedInterest]);
-
-  const validate = () => {
-    const newErrors: Partial<Record<keyof LeadFormState, string>> = {};
-    if (!formData.fullName.trim()) newErrors.fullName = "يرجى إدخال الاسم الكامل";
-    if (!formData.age || Number(formData.age) < 18) newErrors.age = "يجب أن يكون العمر 18+";
-    
-    // Updated Regex for Syrian mobile numbers: 09 followed by 8 digits
-    if (!formData.phone.match(/^(09)([0-9]{8})$/)) {
-      newErrors.phone = "رقم الجوال غير صحيح (مثال: 09xxxxxxxx)";
+  
+  const handleOpenChat = () => {
+    // Check if chatwoot is loaded and available on window
+    if ((window as any).$chatwoot) {
+      (window as any).$chatwoot.toggle('open');
+    } else {
+      console.warn('Chatwoot not loaded yet');
+      // Fallback if chat script isn't loaded
+      alert("يرجى الانتظار قليلاً ريثما يتم تحميل المحادثة...");
     }
-    
-    if (!formData.consent) newErrors.consent = "يجب الموافقة على الشروط";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Save to local storage
-    const submissions = JSON.parse(localStorage.getItem('leads') || '[]');
-    submissions.push({ ...formData, date: new Date().toISOString() });
-    localStorage.setItem('leads', JSON.stringify(submissions));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-  };
-
-  if (isSubmitted) {
-    return (
-      <section id="lead-form" className="py-20 bg-primary-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <div className="bg-white/10 backdrop-blur-md p-12 rounded-3xl max-w-2xl mx-auto border border-white/20 shadow-2xl animate-fade-in-up">
-            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-primary-600 mx-auto mb-6">
-              <CheckCircle size={40} strokeWidth={3} />
-            </div>
-            <h2 className="text-3xl font-bold mb-4">تم استلام طلبك بنجاح!</h2>
-            <p className="text-lg text-primary-50 mb-8">
-              شكراً لاهتمامك بمجمع الشام، {formData.fullName}.<br/>
-              سيقوم أحد مستشارينا العقاريين بالتواصل معك قريباً على الرقم {formData.phone}.
-            </p>
-            <div className="bg-black/20 rounded-xl p-6 text-right max-w-md mx-auto">
-              <h3 className="font-bold border-b border-white/20 pb-2 mb-3">ملخص الطلب:</h3>
-              <p className="text-sm mb-1 opacity-90">النوع: {formData.interestType === 'typeA' ? 'نموذج A' : 'نموذج B'}</p>
-              <p className="text-sm mb-1 opacity-90">طريقة الدفع: {formData.purchaseMethod === 'cash' ? 'كاش' : 'أقساط'}</p>
-            </div>
-            <button 
-              onClick={() => setIsSubmitted(false)}
-              className="mt-8 text-sm underline hover:text-white/80"
-            >
-              تسجيل طلب جديد
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="lead-form" className="py-24 relative overflow-hidden bg-slate-900">
@@ -105,149 +34,71 @@ export const LeadForm: React.FC<LeadFormProps> = ({ selectedInterest }) => {
               <span className="text-primary-400">نحو امتلاك منزلك</span>
             </h2>
             <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-              سجل اهتمامك الآن وسنوافيك بكافة التفاصيل والأسعار المحدثة. الفرص المميزة لا تنتظر طويلاً، كن من أوائل الملاك في مجمع الشام.
+              تواصل معنا الآن مباشرة لمعرفة كافة التفاصيل والأسعار المحدثة. فريق المبيعات جاهز للإجابة على استفساراتك فوراً عبر المحادثة المباشرة.
             </p>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold">1</div>
+            <ul className="space-y-6">
+              <li className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold shrink-0">
+                  <MessageCircle size={24} />
+                </div>
                 <div>
-                  <h4 className="font-bold">سجّل بياناتك</h4>
-                  <p className="text-sm text-gray-400">املأ النموذج بدقة لضمان التواصل السريع.</p>
+                  <h4 className="font-bold text-xl mb-1">افتح المحادثة</h4>
+                  <p className="text-sm text-gray-400">اضغط على زر المحادثة للتحدث مع أحد مستشارينا.</p>
                 </div>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold">2</div>
+              <li className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold shrink-0">
+                  <Clock size={24} />
+                </div>
                 <div>
-                  <h4 className="font-bold">استشارة مجانية</h4>
-                  <p className="text-sm text-gray-400">نتواصل معك لتحديد الأنسب لميزانيتك.</p>
+                  <h4 className="font-bold text-xl mb-1">استشارة فورية</h4>
+                  <p className="text-sm text-gray-400">احصل على إجابات سريعة حول الأسعار والمساحات.</p>
                 </div>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold">3</div>
+              <li className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-primary-400 font-bold shrink-0">
+                  <Calendar size={24} />
+                </div>
                 <div>
-                  <h4 className="font-bold">معاينة وحجز</h4>
-                  <p className="text-sm text-gray-400">تفضل بزيارة الموقع واحجز وحدتك.</p>
+                  <h4 className="font-bold text-xl mb-1">معاينة وحجز</h4>
+                  <p className="text-sm text-gray-400">نسّق موعد زيارتك للموقع بكل سهولة عبر المحادثة.</p>
                 </div>
               </li>
             </ul>
           </div>
 
-          {/* Form Side */}
-          <div className="lg:w-1/2 w-full">
-            <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 md:p-8 shadow-2xl">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 border-s-4 border-primary-500 ps-3">نموذج تسجيل الرغبات</h3>
-              
-              <div className="grid md:grid-cols-2 gap-4 mb-4">
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">الاسم الكامل <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    className={`w-full px-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:border-primary-500'} outline-none focus:ring-2 focus:ring-primary-200 transition-all`}
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                  />
-                  {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+          {/* CTA Card Side (Replaces Form) */}
+          <div className="lg:w-1/2 w-full flex justify-center">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 md:p-10 shadow-2xl w-full max-w-md text-center border border-gray-100 dark:border-gray-700 relative overflow-hidden">
+               {/* Decorative blob inside card */}
+               <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary-100 dark:bg-primary-900/20 rounded-full blur-2xl"></div>
+
+              <div className="relative z-10">
+                <div className="w-20 h-20 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center text-primary-600 dark:text-primary-400 mx-auto mb-6 shadow-inner">
+                    <MessageCircle size={40} />
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">رقم الجوال <span className="text-red-500">*</span></label>
-                  <input
-                    type="tel"
-                    placeholder="09xxxxxxxx"
-                    className={`w-full px-4 py-3 rounded-xl border ${errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:border-primary-500'} outline-none focus:ring-2 focus:ring-primary-200 transition-all text-left`}
-                    dir="ltr"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">العمر <span className="text-red-500">*</span></label>
-                  <input
-                    type="number"
-                    className={`w-full px-4 py-3 rounded-xl border ${errors.age ? 'border-red-500 bg-red-50' : 'border-gray-300 focus:border-primary-500'} outline-none focus:ring-2 focus:ring-primary-200 transition-all`}
-                    value={formData.age}
-                    onChange={(e) => setFormData({...formData, age: e.target.value})}
-                  />
-                  {errors.age && <p className="text-red-500 text-xs mt-1">{errors.age}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">النوع المهتم به</label>
-                  <select
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition-all bg-white"
-                    value={formData.interestType}
-                    onChange={(e) => setFormData({...formData, interestType: e.target.value as UnitType})}
-                  >
-                    <option value="typeA">نموذج A (90-110م)</option>
-                    <option value="typeB">نموذج B (130-160م)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">طريقة الشراء</label>
-                  <select
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition-all bg-white"
-                    value={formData.purchaseMethod}
-                    onChange={(e) => setFormData({...formData, purchaseMethod: e.target.value as PurchaseMethod})}
-                  >
-                    <option value="cash">كاش (دفع نقدي)</option>
-                    <option value="installments">أقساط (دفعات شهرية)</option>
-                  </select>
-                </div>
-
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني (اختياري)</label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition-all"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات (اختياري)</label>
-                  <textarea
-                    rows={2}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition-all"
-                    value={formData.notes}
-                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="flex items-start gap-3 cursor-pointer p-2 rounded-lg hover:bg-gray-50">
-                    <input 
-                      type="checkbox" 
-                      className="mt-1 w-5 h-5 accent-primary-600 rounded cursor-pointer"
-                      checked={formData.consent}
-                      onChange={(e) => setFormData({...formData, consent: e.target.checked})}
-                    />
-                    <span className="text-sm text-gray-600">
-                      أوافق على سياسة الخصوصية وأسمح لفريق المبيعات بالتواصل معي عبر الهاتف أو الواتساب.
-                    </span>
-                  </label>
-                  {errors.consent && <p className="text-red-500 text-xs mt-1">{errors.consent}</p>}
-                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                    هل لديك استفسار؟
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-8">
+                    نحن متواجدون الآن لخدمتك. ابدأ المحادثة لتتعرف أكثر على {selectedInterest === 'typeA' ? 'النموذج A' : 'النموذج B'} وعروض التقسيط المتاحة.
+                </p>
+                
+                <button
+                    onClick={handleOpenChat}
+                    className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl shadow-lg shadow-primary-500/30 transition-all transform hover:-translate-y-1 flex justify-center items-center gap-2 group"
+                >
+                    <span>ابدأ المحادثة الآن</span>
+                    <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+                </button>
+                
+                <p className="mt-6 text-xs text-gray-400 flex items-center justify-center gap-1">
+                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    متاحون الآن للرد المباشر
+                </p>
               </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl shadow-lg shadow-primary-500/30 transition-all disabled:opacity-70 flex justify-center items-center gap-2"
-              >
-                {isSubmitting ? (
-                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <span>إرسال الطلب</span>
-                    <Send size={18} />
-                  </>
-                )}
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
