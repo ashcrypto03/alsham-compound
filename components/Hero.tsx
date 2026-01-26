@@ -47,7 +47,7 @@ export const Hero: React.FC = () => {
             onClick={() => scrollToSection('lead-form')}
             className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-primary-400 text-white font-bold rounded-xl shadow-lg shadow-primary-900/50 transition-all transform hover:-translate-y-1 hover:scale-105 active:scale-95 border-b-4 border-primary-700 hover:border-primary-600"
           >
-            سجّل رغبتك الآن
+            تواصل معنا الآن
           </button>
           <button 
             onClick={() => scrollToSection('unit-types')}
