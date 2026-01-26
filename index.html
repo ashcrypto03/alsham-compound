@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مجمع الشام | شقق مكسية جاهزة للتسليم</title>
+    
+    <!-- Google Fonts: Tajawal for modern Arabic UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Tajawal', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                200: '#99f6e4',
+                300: '#5eead4',
+                400: '#2dd4bf',
+                500: '#14b8a6',
+                600: '#0d9488', // Teal
+                700: '#0f766e',
+                800: '#115e59',
+                900: '#134e4a',
+              },
+              accent: {
+                50: '#fffbeb',
+                100: '#fef3c7',
+                200: '#fde68a',
+                300: '#fcd34d',
+                400: '#fbbf24', // Amber
+                500: '#f59e0b',
+                600: '#d97706',
+              },
+              dark: {
+                800: '#1f2937',
+                900: '#111827',
+                950: '#030712',
+              }
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'blob': 'blob 7s infinite',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Smooth scrolling for anchor links */
+      html {
+        scroll-behavior: smooth;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .dark ::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 dark:bg-dark-950 text-gray-800 dark:text-gray-100 antialiased font-sans selection:bg-primary-500 selection:text-white pb-16 md:pb-0 transition-colors duration-300">
+    <div id="root"></div>
+  </body>
+</html>

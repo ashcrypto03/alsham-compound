@@ -1,11 +1,25 @@
-<div align="center">
+# مجمع الشام السكني
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+صفحة هبوط (Landing Page) عصرية لمجمع سكني، مبنية باستخدام React + Tailwind CSS.
 
-  <h1>Built with AI Studio</h2>
+## التشغيل
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+1. **التثبيت:**
+   ```bash
+   npm install
+   ```
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+2. **التشغيل:**
+   ```bash
+   npm run dev
+   ```
 
-</div>
+3. افتح المتصفح على العنوان الظاهر (غالباً `http://localhost:5173`).
+
+## الميزات
+
+- تصميم متجاوب (Responsive) يدعم جميع الشاشات.
+- اتجاه RTL كامل للغة العربية.
+- نموذج تسجيل رغبات مع تحقق من صحة البيانات.
+- حاسبة أقساط تفاعلية.
+- أقسام متنوعة (أنواع الوحدات، ضمانات، أعمال سابقة، أسئلة شائعة).
