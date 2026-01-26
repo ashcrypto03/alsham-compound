@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
           onClick={scrollToForm}
           className="flex-1 bg-primary-600 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform"
         >
-          <span>سجّل رغبتك</span>
+          <span>تواصل معنا</span>
         </button>
         <button className="flex-1 bg-green-500 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2 active:scale-95 transition-transform">
           <MessageCircle size={20} />
