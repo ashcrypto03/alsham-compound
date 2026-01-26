@@ -24,7 +24,7 @@ export const Features: React.FC = () => {
     {
       icon: <Lightbulb className="w-8 h-8 text-white" />,
       title: 'الكهرباء',
-      desc: 'أسلاك وكابلات ومفاتيح معتمدة (الفنار/الرياض)',
+      desc: 'أسلاك وكابلات ومفاتيح معتمدة',
       duration: 'ضمان 10 سنوات',
       process: 'فحص وإصلاح',
       gradient: 'from-yellow-400 to-amber-500',
