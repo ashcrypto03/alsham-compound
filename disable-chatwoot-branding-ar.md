@@ -145,22 +145,6 @@ exit
 
 ---
 
-## الخطوة 9: تحديث الموقع ومسح الكاش
-
-قد يكون الودجت مخزّنًا في الكاش، لذلك ننفّذ أحد التالي:
-- فتح الموقع في نافذة Incognito
-- أو تحديث قوي: Ctrl + F5
-
-(اختياري) مسح بيانات Chatwoot من المتصفح:
-
-```js
-localStorage.removeItem('cw_conversation')
-localStorage.removeItem('cw_user')
-localStorage.removeItem('chatwoot_widget')
-location.reload()
-```
-
----
 
 ## النتيجة النهائية
 
