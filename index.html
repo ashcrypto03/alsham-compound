@@ -110,7 +110,36 @@
 
 <body class="bg-gray-50 dark:bg-dark-950 text-gray-800 dark:text-gray-100 antialiased font-sans selection:bg-primary-500 selection:text-white pb-16 md:pb-0 transition-colors duration-300">
     <div id="root"></div>
-    <script>
+        <script>
+      // 1) Widget settings (language + behavior)
+      window.chatwootSettings = {
+        locale: "ar",
+      };
+    
+      // 2) Force RTL styles for the widget UI
+      (function () {
+        const style = document.createElement("style");
+        style.innerHTML = `
+          /* Chatwoot RTL patch */
+          .chatwoot-widget, .chatwoot-widget * {
+            direction: rtl !important;
+            text-align: right !important;
+            font-family: 'Tajawal', sans-serif !important;
+          }
+    
+          .chatwoot-widget input,
+          .chatwoot-widget textarea {
+            direction: rtl !important;
+            text-align: right !important;
+          }
+    
+          /* Optional: if you want the launcher button on the LEFT for Arabic */
+          /* .woot-widget-holder { left: 20px !important; right: auto !important; } */
+        `;
+        document.head.appendChild(style);
+      })();
+    
+      // 3) Load Chatwoot SDK
       (function(d,t) {
         var BASE_URL="https://chatwoot.automaxi.xyz";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -125,5 +154,6 @@
         }
       })(document,"script");
     </script>
+
   </body>
 </html>
