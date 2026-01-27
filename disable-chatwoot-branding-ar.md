@@ -174,19 +174,6 @@ docker restart <chatwoot_sidekiq_container_name>
 ```
 
 ---
-
-## 12) مسح تخزين الودجت من المتصفح
-افتح موقعك في نافذة **Incognito** أو نفّذ Hard Refresh.
-
-ثم افتح DevTools → Console ونفّذ:
-
-```js
-localStorage.removeItem('cw_conversation')
-localStorage.removeItem('cw_user')
-localStorage.removeItem('chatwoot_widget')
-location.reload()
-```
-
 ---
 
 ## النتيجة
@@ -231,12 +218,4 @@ exit
 ```bash
 docker restart <chatwoot_rails_container_name>
 docker restart <chatwoot_sidekiq_container_name>
-```
-
-### في المتصفح (Console)
-```js
-localStorage.removeItem('cw_conversation')
-localStorage.removeItem('cw_user')
-localStorage.removeItem('chatwoot_widget')
-location.reload()
 ```
