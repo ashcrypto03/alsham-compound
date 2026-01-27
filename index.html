@@ -109,51 +109,80 @@
   <script type="module" src="/index.tsx"></script>
 
 <body class="bg-gray-50 dark:bg-dark-950 text-gray-800 dark:text-gray-100 antialiased font-sans selection:bg-primary-500 selection:text-white pb-16 md:pb-0 transition-colors duration-300">
-    <div id="root"></div>
-        <script>
-      // 1) Widget settings (language + behavior)
-      window.chatwootSettings = {
-        locale: "ar",
-      };
-    
-      // 2) Force RTL styles for the widget UI
-      (function () {
-        const style = document.createElement("style");
-        style.innerHTML = `
-          /* Chatwoot RTL patch */
-          .chatwoot-widget, .chatwoot-widget * {
-            direction: rtl !important;
-            text-align: right !important;
-            font-family: 'Tajawal', sans-serif !important;
-          }
-    
-          .chatwoot-widget input,
-          .chatwoot-widget textarea {
-            direction: rtl !important;
-            text-align: right !important;
-          }
-    
-          /* Optional: if you want the launcher button on the LEFT for Arabic */
-          /* .woot-widget-holder { left: 20px !important; right: auto !important; } */
-        `;
-        document.head.appendChild(style);
-      })();
-    
-      // 3) Load Chatwoot SDK
-      (function(d,t) {
-        var BASE_URL="https://chatwoot.automaxi.xyz";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+"/packs/js/sdk.js";
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: 'UgXCoyVovoZVpBDQfDUMiSrB',
-            baseUrl: BASE_URL
-          })
-        }
-      })(document,"script");
-    </script>
+  <div id="root"></div>
 
-  </body>
+  <script>
+    // 1) Widget settings (Arabic locale)
+    window.chatwootSettings = {
+      locale: "ar",
+    };
+
+    // 2) Force RTL styles for the widget UI
+    (function () {
+      const style = document.createElement("style");
+      style.innerHTML = `
+        /* Chatwoot RTL patch */
+        .chatwoot-widget, .chatwoot-widget * {
+          direction: rtl !important;
+          text-align: right !important;
+          font-family: 'Tajawal', sans-serif !important;
+        }
+
+        .chatwoot-widget input,
+        .chatwoot-widget textarea {
+          direction: rtl !important;
+          text-align: right !important;
+        }
+
+        /* Optional: move launcher to the LEFT for Arabic UX */
+        /* .woot-widget-holder { left: 20px !important; right: auto !important; } */
+      `;
+      document.head.appendChild(style);
+    })();
+
+    // 3) Load Chatwoot SDK
+    (function (d, t) {
+      var BASE_URL = "https://chatwoot.automaxi.xyz";
+      var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+      g.src = BASE_URL + "/packs/js/sdk.js";
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+
+      g.onload = function () {
+        window.chatwootSDK.run({
+          websiteToken: "UgXCoyVovoZVpBDQfDUMiSrB",
+          baseUrl: BASE_URL,
+        });
+      };
+    })(document, "script");
+
+    // 4) Option 1: MutationObserver to keep "Powered by Chatwoot" hidden if it reappears
+    (function () {
+      const hideBranding = () => {
+        // Covers common selectors used by Chatwoot for branding/footer links
+        const nodes = document.querySelectorAll(
+          '.chatwoot-widget a[href*="chatwoot"], .chatwoot-widget .woot--branding, .chatwoot-widget footer'
+        );
+
+        nodes.forEach((el) => {
+          el.style.display = "none";
+          el.style.visibility = "hidden";
+          el.style.height = "0";
+        });
+      };
+
+      // Try immediately
+      hideBranding();
+
+      // Observe future DOM changes (SDK can re-render after minutes)
+      const observer = new MutationObserver(hideBranding);
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Extra safety: run once after a short delay (covers late iframe mounts)
+      setTimeout(hideBranding, 1500);
+    })();
+  </script>
+</body>
+
 </html>
