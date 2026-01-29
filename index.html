@@ -110,6 +110,21 @@
 
 <body class="bg-gray-50 dark:bg-dark-950 text-gray-800 dark:text-gray-100 antialiased font-sans selection:bg-primary-500 selection:text-white pb-16 md:pb-0 transition-colors duration-300">
   <div id="root"></div>
+<script>
+  (function(d,t) {
+    var BASE_URL="https://chatwoot.automaxi.xyz";
+    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=BASE_URL+"/packs/js/sdk.js";
+    g.async = true;
+    s.parentNode.insertBefore(g,s);
+    g.onload=function(){
+      window.chatwootSDK.run({
+        websiteToken: 'QRHqxfcph2skY55Cgzksgy9i',
+        baseUrl: BASE_URL
+      })
+    }
+  })(document,"script");
+</script>
 
 </body>
 </html>
