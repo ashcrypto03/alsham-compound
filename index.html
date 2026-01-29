@@ -118,22 +118,28 @@
     g.async = true;
     s.parentNode.insertBefore(g,s);
     g.onload=function(){
+      // 1. Force the locale settings
+      window.chatwootSettings = {
+        position: 'left',      // Optional: Moves bubble to left for Arabic users
+        locale: 'ar',          // Force Arabic
+        type: 'standard'
+      };
+
+      // 2. Initialize
       window.chatwootSDK.run({
         websiteToken: 'QRHqxfcph2skY55Cgzksgy9i',
-        baseUrl: BASE_URL,
-        locale: 'ar'
+        baseUrl: BASE_URL
       });
 
-      // ADD THIS DEBUG LISTENER
-      window.addEventListener('chatwoot:ready', function () {
-        console.log('Chatwoot Arabic loaded successfully');
-      });
-      window.addEventListener('chatwoot:error', function (e) {
-        console.error('Chatwoot Error:', e);
+      // 3. FORCE RESET (Only keeps language, clears "sticky" English session)
+      // Remove this block after you confirm it works!
+      window.addEventListener('chatwoot:ready', function() {
+        if (window.$chatwoot) {
+           window.$chatwoot.setLocale('ar'); // Double force the locale
+        }
       });
     }
   })(document,"script");
 </script>
-
 </body>
 </html>
