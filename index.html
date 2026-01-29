@@ -120,8 +120,17 @@
     g.onload=function(){
       window.chatwootSDK.run({
         websiteToken: 'QRHqxfcph2skY55Cgzksgy9i',
-        baseUrl: BASE_URL
-      })
+        baseUrl: BASE_URL,
+        locale: 'ar'
+      });
+
+      // ADD THIS DEBUG LISTENER
+      window.addEventListener('chatwoot:ready', function () {
+        console.log('Chatwoot Arabic loaded successfully');
+      });
+      window.addEventListener('chatwoot:error', function (e) {
+        console.error('Chatwoot Error:', e);
+      });
     }
   })(document,"script");
 </script>
