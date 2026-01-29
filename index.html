@@ -156,32 +156,6 @@
         });
       };
     })(document, "script");
-
-    // 4) Option 1: MutationObserver to keep "Powered by Chatwoot" hidden if it reappears
-    (function () {
-      const hideBranding = () => {
-        // Covers common selectors used by Chatwoot for branding/footer links
-        const nodes = document.querySelectorAll(
-          '.chatwoot-widget a[href*="chatwoot"], .chatwoot-widget .woot--branding, .chatwoot-widget footer'
-        );
-
-        nodes.forEach((el) => {
-          el.style.display = "none";
-          el.style.visibility = "hidden";
-          el.style.height = "0";
-        });
-      };
-
-      // Try immediately
-      hideBranding();
-
-      // Observe future DOM changes (SDK can re-render after minutes)
-      const observer = new MutationObserver(hideBranding);
-      observer.observe(document.body, { childList: true, subtree: true });
-
-      // Extra safety: run once after a short delay (covers late iframe mounts)
-      setTimeout(hideBranding, 1500);
-    })();
   </script>
 </body>
 
