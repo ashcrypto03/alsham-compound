@@ -118,10 +118,10 @@
     g.async = true;
     s.parentNode.insertBefore(g,s);
     g.onload=function(){
-      // 1. Force the locale settings
+      // 1. Settings for Position and Language
       window.chatwootSettings = {
-        position: 'left',      // Optional: Moves bubble to left for Arabic users
-        locale: 'ar',          // Force Arabic
+        position: 'right',      // <--- CHANGED TO RIGHT
+        locale: 'ar',           // Force Arabic Language
         type: 'standard'
       };
 
@@ -131,11 +131,11 @@
         baseUrl: BASE_URL
       });
 
-      // 3. FORCE RESET (Only keeps language, clears "sticky" English session)
-      // Remove this block after you confirm it works!
+      // 3. Force Reset (To fix your current browser session)
+      // You can remove this part after you see it working correctly
       window.addEventListener('chatwoot:ready', function() {
         if (window.$chatwoot) {
-           window.$chatwoot.setLocale('ar'); // Double force the locale
+           window.$chatwoot.setLocale('ar');
         }
       });
     }
